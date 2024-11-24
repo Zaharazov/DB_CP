@@ -20,7 +20,8 @@ var routes Routes
 
 func NewRouter() *mux.Router {
 
-	//routes = append(routes, s_routes...)
+	routes = append(routes, gym_routes...)
+	routes = append(routes, pages_routes...)
 
 	router := mux.NewRouter().StrictSlash(true)
 	for _, route := range routes {
