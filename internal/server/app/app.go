@@ -2,16 +2,17 @@ package app
 
 import (
 	"DB_CP/internal/controller"
+	"DB_CP/internal/database"
+	"DB_CP/internal/presentation/routers"
+	"DB_CP/internal/server/configs"
 	"fmt"
 	"log"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
 func Run() {
 
-	r := mux.NewRouter()
+	r := routers.NewRouter()
 	r.HandleFunc("/", controller.HomeHandler)
 	r.HandleFunc("/gyms", controller.GymsHandler)
 	r.HandleFunc("/gym_passes", controller.GymPassesHandler)
@@ -19,7 +20,9 @@ func Run() {
 
 	log.Printf("Server started!")
 
-	if err := http.ListenAndServe(":8080", r); err != nil {
+	database.ConnectToPostrges()
+
+	if err := http.ListenAndServe(configs.Port, r); err != nil {
 		fmt.Println("Error starting server:", err)
 	}
 }
